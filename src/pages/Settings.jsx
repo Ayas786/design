@@ -71,7 +71,7 @@ function Settings({ Se }) {
             </div>
 
             {/* Footer */}
-            <footer className=" bg-gray-800 text-white p-4 mt-auto">
+            <footer className=" container bg-white text-white p-4 fixed mb-0 bottom-0 ">
                 <Footer />
             </footer>
         </div>

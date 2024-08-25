@@ -2,7 +2,7 @@
 import { useState, useRef } from 'react';
 import React from 'react'
 import Header from '../components/HeaderAyas';
-const Messages = ({ Se }) => {
+const Edit = ({ Se }) => {
   // Initialize state for form fields
   const [formData, setFormData] = useState({
     name: '',
@@ -17,6 +17,26 @@ const Messages = ({ Se }) => {
   const [selectedReels, setSelectedReels] = useState([]);
   const fileInputRef = useRef(null);
   const fileInputRef2 = useRef(null);
+  const [currentPhoto, setCurrentPhoto] = useState('/assets/Images/mohanlal.jpeg"?text=Current+Image');
+  const [newPhoto, setNewPhoto] = useState(null);
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewPhoto(reader.result);
+      };
+      reader.readAsDataURL(file); // Read the file as a data URL
+    }
+  };
+
+  const handleReplaceClick = () => {
+    if (newPhoto) {
+      setCurrentPhoto(newPhoto);
+      setNewPhoto(null); // Clear the new photo after replacing
+    }
+  };
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files); // Convert FileList to array
@@ -85,7 +105,41 @@ const Messages = ({ Se }) => {
     <div>
       <Header title={Se} />
       <div className="grid grid-cols-1 h-24">
-        <div className="  "><p className="absolute left-4"><img src="/assets/Images/mohanlal.jpeg" alt="" className="h-16 rounded-full mt-4" ></img></p></div>
+        {/* <div className="  "><p className="absolute left-4"><img src={photo ||"/assets/Images/mohanlal.jpeg"} alt="" className="h-16 rounded-full mt-4" ></img></p></div>
+        <div className="  "><button className="absolute left-8"><img src="/assets/Images/pencil.jpg" alt="" className="h-6 rounded-full mt-7"  ></img></button></div> */}
+        <div className="  "><p className="absolute left-4"><img src={currentPhoto} alt="" className="h-16 rounded-full mt-4" ></img></p></div>
+        <input
+          type="file"
+          id="fileInput"
+          accept="image/*"
+          className="hidden"
+          onChange={handlePhotoChange}
+        />
+        <label
+          htmlFor="fileInput"
+        // className="bg-blue-500 text-white py-2 px-6 rounded-md cursor-pointer shadow-md hover:bg-blue-600 transition"
+        >
+          <img src="/assets/Images/pencil.jpg" alt="" className="h-6  mt-7 w-24  object-cover rounded-full border absolute left-4"  ></img>      </label>
+        {newPhoto && (
+          <div className="-mt-8 flex flex-col items-center">
+            <div className="mb-2">
+              <img
+                src={newPhoto || '/assets/Images/mohanlal.jpeg'}
+                alt="New Preview"
+                className="w-24 h-24 object-cover rounded-full border absolute left-4"
+                onClick={handleReplaceClick}
+              />
+            </div>
+            {/* <button
+              onClick={handleReplaceClick}
+            >
+              
+            </button> */}
+          </div>
+        )}
+        {!newPhoto && (
+          <p className="text-gray-600 mt-2"></p>
+        )}
         <div>
           <div className=" "><p className="absolute left-24 -mt-8 font-bold">Mohanlal</p></div>
           <div className=" "><p className="absolute left-24 text-sm">Never give up</p></div>
@@ -159,8 +213,8 @@ const Messages = ({ Se }) => {
                 onChange={handleChange}
               />
             </div>
-           
-         
+
+
             <div className='mt-8'>
               <label className=''>
                 Bio
@@ -292,7 +346,7 @@ const Messages = ({ Se }) => {
 }
 //     )
 // }
-export default Messages
+export default Edit
 
 
 
